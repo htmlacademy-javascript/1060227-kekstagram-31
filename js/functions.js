@@ -27,17 +27,12 @@ function getNumber (string) {
   }
   string = string.replaceAll(' ', '');
   for (let i = 0; i <= string.length - 1; i++) {
-    string[i] = parseInt(string[i], 10);
-    if (!Number.isNaN(string[i]) && string[i] >= 0) {
-      newString += string[i];
-      newString = parseInt(newString, 10);
+    const element = parseInt(string[i], 10);
+    if (!Number.isNaN(element)) {
+      newString += element;
     }
-
   }
-  if (!newString) {
-    return NaN;
-  }
-  return newString;
+  return parseInt(newString, 10);
 }
 getNumber('2023 год');
 getNumber('ECMAScript 2022');
@@ -47,3 +42,4 @@ getNumber('а я томат');
 getNumber(2056);
 getNumber(-1);
 getNumber(1.5);
+
