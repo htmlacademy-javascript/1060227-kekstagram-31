@@ -60,12 +60,12 @@ const DESCRIPTION_LIST = [
 ];
 
 const MESSAGE_LIST = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  'Всё отлично! ',
+  'В целом всё неплохо. Но не всё. ',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально. ',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше. ',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше. ',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?! '
 ];
 
 const getRandomInteger = (a, b) => {
@@ -97,13 +97,13 @@ const createComment = () => {
     let randomMessageIndexNow = getRandomInteger(0, MESSAGE_LIST.length - 1);
     while (randomMessageIndexNow === randomMessageIndexOld) {
       randomMessageIndexNow = getRandomInteger(0, MESSAGE_LIST.length - 1);
-    };
-    newMessage += MESSAGE_LIST[randomMessageIndexNow] + ' ';
+    }
+    newMessage += MESSAGE_LIST[randomMessageIndexNow];
     randomMessageIndexOld = randomMessageIndexNow;
-  };
+  }
   return {
     id: getIdComment(),
-    avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: newMessage,
     name: NAMES[randomNameIndex],
   };
@@ -113,7 +113,7 @@ const createPhotoDescription = () => {
   const i = getUrl();
   return {
     id: getIdPhoto(),
-    url: 'photos/' + i + '.jpg',
+    url: `photos/${i}.jpg`,
     description: DESCRIPTION_LIST[i - 1],
     likes: getRandomInteger(15, 200),
     comments: Array.from({length: getRandomInteger(0, 30)}, createComment),
@@ -122,4 +122,5 @@ const createPhotoDescription = () => {
 
 const PhotosDescription = Array.from({length: 25}, createPhotoDescription);
 
-console.log(JSON.stringify(PhotosDescription));
+//console.log(PhotosDescription);
+//console.log(JSON.stringify(PhotosDescription));
