@@ -123,4 +123,4 @@ const createPhotoDescription = () => {
 const PhotosDescription = Array.from({length: 25}, createPhotoDescription);
 
 //console.log(PhotosDescription);
-//console.log(JSON.stringify(PhotosDescription));
+JSON.stringify(PhotosDescription);
