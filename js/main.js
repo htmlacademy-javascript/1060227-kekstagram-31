@@ -85,14 +85,20 @@ const createCounter = () => {
 
 const getIdPhoto = createCounter();
 const getIdComment = createCounter();
-const getUrl = createCounter();
+const getNumberPhoto = createCounter();
 
-const createComment = () => {
-  const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+const getRandomNumberAvatar = () => `img/avatar-${getRandomInteger(1, 6)}.svg`;
+
+const getUrlPhoto = (number) => `photos/${number}.jpg`;
+
+const getDescription = (number) => DESCRIPTION_LIST[number - 1];
+
+const getRandomMessage = () => {
   const messageNumber = getRandomInteger(1, 2);
   let newMessage = '';
   let randomMessageIndexOld = -1;
-  //  Проверка на уникальность второго предложения в message (по заданию должно выводиться сообщение либо из одного, либо из двух случайных предложений)
   for (let j = 1; j <= messageNumber; j++) {
     let randomMessageIndexNow = getRandomInteger(0, MESSAGE_LIST.length - 1);
     while (randomMessageIndexNow === randomMessageIndexOld) {
@@ -101,20 +107,22 @@ const createComment = () => {
     newMessage += MESSAGE_LIST[randomMessageIndexNow];
     randomMessageIndexOld = randomMessageIndexNow;
   }
-  return {
-    id: getIdComment(),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: newMessage,
-    name: NAMES[randomNameIndex],
-  };
+  return newMessage;
 };
 
+const createComment = () => ({
+  id: getIdComment(),
+  avatar: getRandomNumberAvatar(),
+  message: getRandomMessage(),
+  name: getRandomArrayElement(NAMES),
+});
+
 const createPhotoDescription = () => {
-  const i = getUrl();
+  const numberPhoto = getNumberPhoto();
   return {
     id: getIdPhoto(),
-    url: `photos/${i}.jpg`,
-    description: DESCRIPTION_LIST[i - 1],
+    url: getUrlPhoto(numberPhoto),
+    description: getDescription(numberPhoto),
     likes: getRandomInteger(15, 200),
     comments: Array.from({length: getRandomInteger(0, 30)}, createComment),
   };
@@ -122,5 +130,5 @@ const createPhotoDescription = () => {
 
 const PhotosDescription = Array.from({length: 25}, createPhotoDescription);
 
-//console.log(PhotosDescription);
+// console.log(PhotosDescription);
 JSON.stringify(PhotosDescription);
