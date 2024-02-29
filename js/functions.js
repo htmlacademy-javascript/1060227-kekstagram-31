@@ -43,3 +43,31 @@ getNumber(2056);
 getNumber(-1);
 getNumber(1.5);
 
+
+// Домашнее задание 5.16 Функции возвращаются
+const getTimeArray = (time) => time.split(':');
+const getTimeInMinutes = (timeArray) => Number(timeArray[0]) * 60 + Number(timeArray[1]);
+
+const checkTimeMeeting = (startWork, finishWork, startMeeting, durationMeeting) => {
+  const startWorkArray = getTimeArray(startWork);
+  const finishWorkArray = getTimeArray(finishWork);
+  const startMeetingArray = getTimeArray(startMeeting);
+  finishWork = getTimeInMinutes(finishWorkArray);
+  startWork = getTimeInMinutes(startWorkArray);
+  startMeeting = getTimeInMinutes(startMeetingArray);
+  const finishMeeting = startMeeting + durationMeeting;
+  return (startWork <= finishMeeting) && (finishMeeting <= finishWork) && (startMeeting >= startWork);
+};
+
+console.log(checkTimeMeeting('08:00', '17:30', '14:00', 90));
+console.log(checkTimeMeeting('8:0', '10:0', '8:0', 120));
+console.log(checkTimeMeeting('08:00', '14:30', '14:00', 90));
+console.log(checkTimeMeeting('14:00', '17:30', '08:0', 90));
+console.log(checkTimeMeeting('8:00', '17:30', '08:00', 900));
+console.log(checkTimeMeeting('8:00', '17:30', '01:00', 900));
+console.log(checkTimeMeeting('8:00', '17:30', '01:00', 10));
+console.log(checkTimeMeeting('8:00', '17:30', '07:50', 10));
+console.log(checkTimeMeeting('8:00', '09:30', '08:00', 90));
+console.log(checkTimeMeeting('8:00', '09:30', '08:00', 91));
+console.log(checkTimeMeeting('8:00', '09:30', '08:00', 89));
+
