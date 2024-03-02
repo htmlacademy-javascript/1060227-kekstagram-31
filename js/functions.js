@@ -59,15 +59,5 @@ const checkTimeMeeting = (startWork, finishWork, startMeeting, durationMeeting) 
   return (startWork <= finishMeeting) && (finishMeeting <= finishWork) && (startMeeting >= startWork);
 };
 checkTimeMeeting('08:00', '17:30', '14:00', 90);
-// console.log(checkTimeMeeting('08:00', '17:30', '14:00', 90));
-// console.log(checkTimeMeeting('8:0', '10:0', '8:0', 120));
-// console.log(checkTimeMeeting('08:00', '14:30', '14:00', 90));
-// console.log(checkTimeMeeting('14:00', '17:30', '08:0', 90));
-// console.log(checkTimeMeeting('8:00', '17:30', '08:00', 900));
-// console.log(checkTimeMeeting('8:00', '17:30', '01:00', 900));
-// console.log(checkTimeMeeting('8:00', '17:30', '01:00', 10));
-// console.log(checkTimeMeeting('8:00', '17:30', '07:50', 10));
-// console.log(checkTimeMeeting('8:00', '09:30', '08:00', 90));
-// console.log(checkTimeMeeting('8:00', '09:30', '08:00', 91));
-// console.log(checkTimeMeeting('8:00', '09:30', '08:00', 89));
+
 
