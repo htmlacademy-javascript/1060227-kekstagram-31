@@ -58,7 +58,7 @@ const checkTimeMeeting = (startWork, finishWork, startMeeting, durationMeeting) 
   const finishMeeting = startMeeting + durationMeeting;
   return (startWork <= finishMeeting) && (finishMeeting <= finishWork) && (startMeeting >= startWork);
 };
-
+checkTimeMeeting('08:00', '17:30', '14:00', 90);
 // console.log(checkTimeMeeting('08:00', '17:30', '14:00', 90));
 // console.log(checkTimeMeeting('8:0', '10:0', '8:0', 120));
 // console.log(checkTimeMeeting('08:00', '14:30', '14:00', 90));
