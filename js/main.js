@@ -1,3 +1,3 @@
-import {PhotosDescription} from './get-photos-description.js';
+import {getPhotosDescription} from './photo.js';
 
-PhotosDescription();
+console.log(getPhotosDescription());
