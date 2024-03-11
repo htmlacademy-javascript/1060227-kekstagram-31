@@ -1,7 +1,7 @@
 import {getPhotosDescription} from './photo.js';
 
 const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content;
+const pictureTemplate = document.querySelector('#picture')?.content;
 
 
 const photosDescription = getPhotosDescription();
