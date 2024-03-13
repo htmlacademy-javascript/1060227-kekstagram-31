@@ -6,10 +6,6 @@ const checkTimeMeeting = (startWork, finishWork, startMeeting, durationMeeting) 
   const startWorkArray = getTimeArray(startWork);
   const finishWorkArray = getTimeArray(finishWork);
   const startMeetingArray = getTimeArray(startMeeting);
-  finishWork = getTimeInMinutes(finishWorkArray);
-  startWork = getTimeInMinutes(startWorkArray);
-  startMeeting = getTimeInMinutes(startMeetingArray);
-  const finishMeeting = startMeeting + durationMeeting;
-  return (startWork <= finishMeeting) && (finishMeeting <= finishWork) && (startMeeting >= startWork);
+  return (getTimeInMinutes(startWorkArray) <= getTimeInMinutes(startMeetingArray) + durationMeeting) && (getTimeInMinutes(startMeetingArray) + durationMeeting <= getTimeInMinutes(finishWorkArray)) && (getTimeInMinutes(startMeetingArray) >= getTimeInMinutes(startWorkArray));
 };
-checkTimeMeeting('08:00', '17:30', '14:00', 90);
+console.log(checkTimeMeeting('08:00', '17:30', '14:00', 90));
