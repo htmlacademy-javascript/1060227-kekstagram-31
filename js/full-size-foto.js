@@ -50,19 +50,14 @@ const createOneComment = (comment) => {
 
 
 const createCommentsList = (comment) => {
-  let countComments = 0;
-  for (let i = 0; i < COMMENTS_NUMBER; i++) {
-    if (countComments >= comment.length) {
-      break;
-    }
+  for (let i = 0; i < Math.min(COMMENTS_NUMBER, comment.lenght); i++) {
     createOneComment(comment[i]);
-    countComments = i;
   }
 };
 
 picturesContainer.addEventListener('click', (evt) => {
   photosDescription.forEach(({ id, url, likes, description, comments }) => {
-    if ((Number(evt.target.closest('.picture').dataset.pictureId)) === id) {
+    if ((Number(evt.target.closest('.picture')?.dataset.pictureId)) === id) {
       openBigPicture();
       image.src = url;
       likesCount.textContent = likes;
@@ -70,9 +65,9 @@ picturesContainer.addEventListener('click', (evt) => {
       commentTotalCount.textContent = comments.length;
       socialCommentsList.innerHTML = '';
       createCommentsList(comments);
+      socialCommentCount.classList.add('hidden');
+      commentsLoader.classList.add('hidden');
     }
-    socialCommentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
   });
 });
 
