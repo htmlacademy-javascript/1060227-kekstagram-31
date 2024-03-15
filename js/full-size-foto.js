@@ -8,12 +8,11 @@ const likesCount = bigPictureContainer.querySelector('.likes-count');
 const descriptionPhoto = bigPictureContainer.querySelector('.social__caption');
 const commentTemplate = document.querySelector('#comment')?.content?.querySelector('.social__comment');
 const socialCommentsList = bigPictureContainer.querySelector('.social__comments');
-//const socialCommentOne = bigPictureContainer.querySelector('.social__comment');
 const socialCommentCount = bigPictureContainer.querySelector('.social__comment-count');
 //const commentShownCount = bigPictureContainer.querySelector('.social__comment-shown-count');
 const commentTotalCount = bigPictureContainer.querySelector('.social__comment-total-count');
 const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
-
+const COMMENTS_NUMBER = 5;
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -50,14 +49,14 @@ const createOneComment = (comment) => {
 };
 
 
-const createCommentsList = (comments) => {
+const createCommentsList = (comment) => {
   let countComments = 0;
-  for (let i = 0; i <= comments.length - 1; i++) {
-    createOneComment(comments[i]);
-    countComments = countComments + 1;
-    if (countComments >= 5) {
+  for (let i = 0; i < COMMENTS_NUMBER; i++) {
+    if (countComments >= comment.length) {
       break;
     }
+    createOneComment(comment[i]);
+    countComments = i;
   }
 };
 
@@ -71,9 +70,9 @@ picturesContainer.addEventListener('click', (evt) => {
       commentTotalCount.textContent = comments.length;
       socialCommentsList.innerHTML = '';
       createCommentsList(comments);
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
     }
+    socialCommentCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
   });
 });
 
