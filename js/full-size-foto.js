@@ -14,12 +14,9 @@ const commentTotalCount = bigPictureContainer.querySelector('.social__comment-to
 const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
 const COMMENTS_NUMBER = 5;
 
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    closeBigPicture();
-  }
-};
+socialCommentCount.classList.add('hidden');
+commentsLoader.classList.add('hidden');
+
 
 const openBigPicture = () => {
   bigPictureContainer.classList.remove('hidden');
@@ -37,6 +34,13 @@ bigPictureCancel.addEventListener('click', () => {
   closeBigPicture();
 });
 
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+}
+
 const commentFragment = document.createDocumentFragment();
 
 const createOneComment = (comment) => {
@@ -50,23 +54,25 @@ const createOneComment = (comment) => {
 
 
 const createCommentsList = (comment) => {
-  for (let i = 0; i < Math.min(COMMENTS_NUMBER, comment.lenght); i++) {
+  for (let i = 0; i < Math.min(COMMENTS_NUMBER, comment.length); i++) {
     createOneComment(comment[i]);
   }
+};
+
+const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commentsPhoto) => {
+  image.src = urlPhoto;
+  likesCount.textContent = likesPhoto;
+  descriptionPhoto.textContent = descriptionOfPhoto;
+  commentTotalCount.textContent = commentsPhoto.length;
+  socialCommentsList.innerHTML = '';
+  createCommentsList(commentsPhoto);
 };
 
 picturesContainer.addEventListener('click', (evt) => {
   photosDescription.forEach(({ id, url, likes, description, comments }) => {
     if ((Number(evt.target.closest('.picture')?.dataset.pictureId)) === id) {
       openBigPicture();
-      image.src = url;
-      likesCount.textContent = likes;
-      descriptionPhoto.textContent = description;
-      commentTotalCount.textContent = comments.length;
-      socialCommentsList.innerHTML = '';
-      createCommentsList(comments);
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
+      createPhotoDescription(url, likes, description, comments);
     }
   });
 });
