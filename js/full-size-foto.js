@@ -8,14 +8,10 @@ const likesCount = bigPictureContainer.querySelector('.likes-count');
 const descriptionPhoto = bigPictureContainer.querySelector('.social__caption');
 const commentTemplate = document.querySelector('#comment')?.content?.querySelector('.social__comment');
 const socialCommentsList = bigPictureContainer.querySelector('.social__comments');
-const socialCommentCount = bigPictureContainer.querySelector('.social__comment-count');
-//const commentShownCount = bigPictureContainer.querySelector('.social__comment-shown-count');
+const commentShownCount = bigPictureContainer.querySelector('.social__comment-shown-count');
 const commentTotalCount = bigPictureContainer.querySelector('.social__comment-total-count');
 const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
 const COMMENTS_NUMBER = 5;
-
-socialCommentCount.classList.add('hidden');
-commentsLoader.classList.add('hidden');
 
 
 const openBigPicture = () => {
@@ -52,12 +48,24 @@ const createOneComment = (comment) => {
   socialCommentsList.appendChild(commentFragment);
 };
 
-
 const createCommentsList = (comment) => {
-  for (let i = 0; i < Math.min(COMMENTS_NUMBER, comment.length); i++) {
-    createOneComment(comment[i]);
+  let countComments = 0;
+  for (let i = 0; i < COMMENTS_NUMBER; i++) {
+    if (comment.length === 0) {
+      commentsLoader.classList.add('hidden');
+      break;
+    }
+    createOneComment(comment[0]);
+    comment.shift();
+    commentsLoader.classList.remove('hidden');
+    countComments++;
   }
+  if (comment.length === 0) {
+    commentsLoader.classList.add('hidden');
+  }
+  return countComments;
 };
+
 
 const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commentsPhoto) => {
   image.src = urlPhoto;
@@ -65,7 +73,15 @@ const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commen
   descriptionPhoto.textContent = descriptionOfPhoto;
   commentTotalCount.textContent = commentsPhoto.length;
   socialCommentsList.innerHTML = '';
-  createCommentsList(commentsPhoto);
+  const newComments = commentsPhoto.slice();
+  let countCommentsFull = createCommentsList(newComments);
+  commentShownCount.textContent = countCommentsFull;
+  if (commentsPhoto.length > COMMENTS_NUMBER) {
+    commentsLoader.addEventListener('click', () => {
+      countCommentsFull += createCommentsList(newComments);
+      commentShownCount.textContent = countCommentsFull;
+    });
+  }
 };
 
 picturesContainer.addEventListener('click', (evt) => {
