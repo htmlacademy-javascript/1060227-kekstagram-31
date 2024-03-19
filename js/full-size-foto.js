@@ -39,31 +39,28 @@ function onDocumentKeydown(evt) {
 
 const commentFragment = document.createDocumentFragment();
 
-const createOneComment = (comment) => {
+const createComment = (comment) => {
   const commentTemplateClone = commentTemplate.cloneNode(true);
-  commentTemplateClone.querySelector('.social__picture').src = comment.avatar;
-  commentTemplateClone.querySelector('.social__picture').alt = comment.name;
+  const socialPicture = commentTemplateClone.querySelector('.social__picture');
+  socialPicture.src = comment.avatar;
+  socialPicture.alt = comment.name;
   commentTemplateClone.querySelector('.social__text').textContent = comment.message;
   commentFragment.appendChild(commentTemplateClone);
   socialCommentsList.appendChild(commentFragment);
 };
 
-const createCommentsList = (comment) => {
-  let countComments = 0;
-  for (let i = 0; i < COMMENTS_NUMBER; i++) {
-    if (comment.length === 0) {
-      commentsLoader.classList.add('hidden');
-      break;
-    }
-    createOneComment(comment[0]);
-    comment.shift();
-    commentsLoader.classList.remove('hidden');
-    countComments++;
-  }
-  if (comment.length === 0) {
+
+const createCommentsList = (comment, startIndex) => {
+  let newComIndex = 0;
+  for (let i = startIndex; i < Math.min(startIndex + COMMENTS_NUMBER, comment.length); i++) {
+    createComment(comment[i]);
     commentsLoader.classList.add('hidden');
+    newComIndex = i + 1;
   }
-  return countComments;
+  if (comment.length > newComIndex) {
+    commentsLoader.classList.remove('hidden');
+  }
+  return newComIndex;
 };
 
 
@@ -73,13 +70,15 @@ const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commen
   descriptionPhoto.textContent = descriptionOfPhoto;
   commentTotalCount.textContent = commentsPhoto.length;
   socialCommentsList.innerHTML = '';
-  const newComments = commentsPhoto.slice();
-  let countCommentsFull = createCommentsList(newComments);
-  commentShownCount.textContent = countCommentsFull;
+  let indexCommentsStart = 0;
+  let countComments = createCommentsList(commentsPhoto, indexCommentsStart);
+  commentShownCount.textContent = countComments;
   if (commentsPhoto.length > COMMENTS_NUMBER) {
+    commentsLoader.classList.remove('hidden');
     commentsLoader.addEventListener('click', () => {
-      countCommentsFull += createCommentsList(newComments);
-      commentShownCount.textContent = countCommentsFull;
+      indexCommentsStart += COMMENTS_NUMBER;
+      countComments = createCommentsList(commentsPhoto, indexCommentsStart);
+      commentShownCount.textContent = countComments;
     });
   }
 };
@@ -92,5 +91,3 @@ picturesContainer.addEventListener('click', (evt) => {
     }
   });
 });
-
-
