@@ -41,6 +41,18 @@ function onDocumentKeydown(evt) {
   }
 }
 
+textHashtag.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+});
+
+textComment.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+});
+
 const validateLengthComment = (comment) => comment.length <= COMMENT_LIMIT;
 const validateHashtagLimit = (hashtagList) => hashtagList.split(' ').length <= LIMIT_HASHTAG;
 const validateHashtagUniq = (hashtagList) => {
