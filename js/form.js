@@ -1,3 +1,5 @@
+import { addScaleListeners, removeScaleListeners } from './scale.js';
+import { deleteEffect } from './image-effects.js';
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const uploadButton = document.querySelector('.img-upload__input');
@@ -13,14 +15,17 @@ const pristine = new Pristine(form, {
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
+  errorTextClass: 'text-error'
 });
 
 
 uploadButton.addEventListener('change', (evt) => {
   evt.preventDefault();
+  addScaleListeners();
   editFormImage.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  deleteEffect();
 });
 
 const closeEditFormImage = () => {
@@ -57,12 +62,13 @@ const validateLengthComment = (comment) => comment.length <= COMMENT_LIMIT;
 const validateHashtagLimit = (hashtagList) => hashtagList.split(' ').length <= LIMIT_HASHTAG;
 const validateHashtagUniq = (hashtagList) => {
   const hashtagArray = hashtagList.toLowerCase().split(' ');
-  const uniqueArray = [];
-  for (let i = 0; i < hashtagArray.length; i++) {
-    if (!uniqueArray.includes(hashtagArray[i])) {
-      uniqueArray.push(hashtagArray[i]);
-    }
-  }
+  // const uniqueArray = [];
+  // for (let i = 0; i < hashtagArray.length; i++) {
+  //   if (!uniqueArray.includes(hashtagArray[i])) {
+  //     uniqueArray.push(hashtagArray[i]);
+  //   }
+  // }
+  const uniqueArray = Array.from(new Set(hashtagArray));
   return hashtagArray.length === uniqueArray.length;
 };
 
@@ -90,4 +96,5 @@ form.addEventListener('submit', (evt) => {
   if (!isValid) {
     evt.preventDefault();
   }
+  removeScaleListeners();
 });
