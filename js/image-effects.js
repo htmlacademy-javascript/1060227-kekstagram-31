@@ -101,6 +101,10 @@ effectLevelSlider.noUiSlider.on('update', () => {
 effectsList.addEventListener('click', (evt) => {
   currentFilterValue = evt.target.value;
 
+  if (!currentFilterValue) {
+    return;
+  }
+
   if (currentFilterValue === 'none') {
     applyFilter();
   } else {
