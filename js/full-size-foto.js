@@ -1,4 +1,6 @@
-import {picturesContainer, photosDescription} from './photo-thumbnail.js';
+//import {picturesContainer, photosDescription} from './photo-thumbnail.js';
+import {picturesContainer} from './photo-thumbnail.js';
+//import { renderUsersPhoto } from './photo-thumbnail.js';
 
 const bigPictureContainer = document.querySelector('.big-picture');
 const body = document.querySelector('body');
@@ -83,11 +85,16 @@ const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commen
   }
 };
 
-picturesContainer.addEventListener('click', (evt) => {
-  photosDescription.forEach(({ id, url, likes, description, comments }) => {
-    if ((Number(evt.target.closest('.picture')?.dataset.pictureId)) === id) {
-      openBigPicture();
-      createPhotoDescription(url, likes, description, comments);
-    }
+//const photosDescription = renderUsersPhoto();
+const showBigPhoto = (userPhotos) => {
+  picturesContainer.addEventListener('click', (evt) => {
+    userPhotos.forEach(({ id, url, likes, description, comments }) => {
+      if ((Number(evt.target.closest('.picture')?.dataset.pictureId)) === id) {
+        openBigPicture();
+        createPhotoDescription(url, likes, description, comments);
+      }
+    });
   });
-});
+};
+
+export {showBigPhoto};

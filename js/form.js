@@ -1,5 +1,9 @@
 import { addScaleListeners, removeScaleListeners } from './scale.js';
 import { deleteEffect } from './image-effects.js';
+import { sendData } from './api.js';
+
+const COMMENT_LIMIT = 140;
+const LIMIT_HASHTAG = 5;
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const uploadButton = document.querySelector('.img-upload__input');
@@ -7,8 +11,7 @@ const editFormImage = document.querySelector('.img-upload__overlay');
 const buttonClose = editFormImage.querySelector('.img-upload__cancel');
 const textHashtag = editFormImage.querySelector('.text__hashtags');
 const textComment = editFormImage.querySelector('.text__description');
-const COMMENT_LIMIT = 140;
-const LIMIT_HASHTAG = 5;
+
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -85,10 +88,30 @@ pristine.addValidator(textHashtag, validateHashtagLimit, 'Превышено к�
 pristine.addValidator(textHashtag, validateHashtagUniq, 'Хэштеги повторяются');
 pristine.addValidator(textHashtag, validateHashtag, 'Введён невалидный хэштег');
 
-form.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-  removeScaleListeners();
-});
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(() => {
+          const successTemplate = document.querySelector('#success')?.content;
+          body.appendChild(successTemplate);
+          // const successMessage = successTemplate.querySelector('.success');
+          // successMessage.classList.add('hidden');
+        })
+        .catch(() => {
+          const errorTemplate = document.querySelector('#error')?.content;
+          body.appendChild(errorTemplate);
+          //const errorMessage = errorTemplate.querySelector('.error');
+          //errorMessage.classList.add('hidden');
+          //errorMessage.classList.remove('hidden');
+        });
+    }
+    removeScaleListeners();
+  });
+};
+
+export {setUserFormSubmit, closeEditFormImage};

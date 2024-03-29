@@ -1,5 +1,6 @@
 import {getRandomArrayElement, getRandomInteger, createCounter} from './util.js';
 import {NAMES, DESCRIPTION_LIST, MESSAGE_LIST} from './data.js';
+//import { getData } from './api.js';
 
 const ValuesConstants = {
   NUMBER_PHOTO_DESCRIPTION: 25,
@@ -55,5 +56,4 @@ const createPhotoDescription = () => {
 };
 
 const getPhotosDescription = () => Array.from({length: ValuesConstants.NUMBER_PHOTO_DESCRIPTION}, createPhotoDescription);
-
 export {getPhotosDescription};
