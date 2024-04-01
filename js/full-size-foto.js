@@ -51,16 +51,16 @@ const createComment = (comment) => {
 
 
 const createCommentsList = (comment, startIndex) => {
-  let newComIndex = 0;
+  let newCommentIndex = 0;
   for (let i = startIndex; i < Math.min(startIndex + COMMENTS_NUMBER, comment.length); i++) {
     createComment(comment[i]);
     commentsLoader.classList.add('hidden');
-    newComIndex = i + 1;
+    newCommentIndex = i + 1;
   }
-  if (comment.length > newComIndex) {
+  if (comment.length > newCommentIndex) {
     commentsLoader.classList.remove('hidden');
   }
-  return newComIndex;
+  return newCommentIndex;
 };
 
 
