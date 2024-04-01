@@ -1,4 +1,3 @@
-import {getPhotosDescription} from './photo.js';
 import './photo-thumbnail.js';
 import './full-size-foto.js';
 import './form.js';
@@ -9,7 +8,7 @@ import { getData } from './api.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
 import { setUserFormSubmit } from './form.js';
 import { closeEditFormImage } from './form.js';
-import { filterPhotos } from './sorting.js';
+import { sortPhotos } from './sorting.js';
 
 //getPhotosDescription();
 
@@ -23,7 +22,7 @@ import { filterPhotos } from './sorting.js';
 getData()
   .then((photos) => {
     renderUsersPhoto(photos);
-    filterPhotos(photos);
+    sortPhotos(photos);
   });
 
 setUserFormSubmit(closeEditFormImage);

@@ -1,4 +1,4 @@
-import {getPhotosDescription} from './photo.js';
+import { clearPhotos } from './sorting.js';
 import { showBigPhoto } from './full-size-foto.js';
 
 const picturesContainer = document.querySelector('.pictures');
@@ -32,6 +32,7 @@ const picturesFragment = document.createDocumentFragment();
 // export {picturesContainer, photosDescription};
 
 const renderUsersPhoto = (userPhotos) => {
+  clearPhotos();
   userPhotos.forEach(({id, url, description, likes, comments}) => {
     const pictureTemplateClone = pictureTemplate.cloneNode(true);
     pictureTemplateClone.dataset.pictureId = id;

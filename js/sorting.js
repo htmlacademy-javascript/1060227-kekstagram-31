@@ -6,15 +6,21 @@ const imageFilters = document.querySelector('.img-filters');
 const defaultFilter = imageFilters.querySelector('#filter-default');
 const randomFilter = imageFilters.querySelector('#filter-random');
 const discussedFilter = imageFilters.querySelector('#filter-discussed');
-//const filterButton = document.querySelector('.img-filters__button');
-const filterButtonsArray = Array.from(document.querySelectorAll('.img-filters__button'));
+const pictures = document.querySelector('.pictures');
 
+const clearPhotos = () => {
+  const photos = pictures.querySelectorAll('.picture');
 
-const filterPhotoDefault = (userPhotos) => userPhotos;
+  photos.forEach((photo) => {
+    photo.remove();
+  });
+};
 
-const filterPhotoRandom = (userPhotos) => {
+const sortPhotoDefault = (userPhotos) => userPhotos;
+
+const sortPhotoRandom = (userPhotos) => {
   const newUserPhotosArray = [];
-  while (userPhotos.length < NUMBER_RANDOM_PHOTO) {
+  while (newUserPhotosArray.length < NUMBER_RANDOM_PHOTO) {
     const randomIndex = getRandomInteger(0, userPhotos.length - 1);
     if (!newUserPhotosArray.includes(userPhotos[randomIndex])) {
       newUserPhotosArray.push(userPhotos[randomIndex]);
@@ -23,24 +29,32 @@ const filterPhotoRandom = (userPhotos) => {
   return newUserPhotosArray;
 };
 
-const filterPhotoDiscussed = (userPhotos) => {
-  userPhotos.slice().sort((commentA, commentB) => commentB.length - commentA.length);
-};
+const sortPhotoDiscussed = (userPhotos) => userPhotos.slice().sort((commentA, commentB) => commentB.comments.length - commentA.comments.length);
 
-for (const filterButton of filterButtonsArray) {
-  filterButton.addEventListener('click', ()=> {
-    filterButtonsArray.forEach((button) => button.classList.remove('img-filters__button--active'));
-    filterButton.classList.add('img-filters__button--active');
-  }
-  );
-}
+let activeFilter = defaultFilter;
 
-const filterPhotos = (userPhotos) => {
+const sortPhotos = (userPhotos) => {
   imageFilters.classList.remove('img-filters--inactive');
-  defaultFilter.addEventListener('click', renderUsersPhoto(filterPhotoDefault(userPhotos)));
-  randomFilter.addEventListener('click', renderUsersPhoto(filterPhotoRandom(userPhotos)));
-  discussedFilter.addEventListener('click', renderUsersPhoto(filterPhotoDiscussed(userPhotos)));
+
+  defaultFilter.addEventListener('click', () => {
+    activeFilter.classList.remove('img-filters__button--active');
+    defaultFilter.classList.add('img-filters__button--active');
+    activeFilter = defaultFilter;
+    renderUsersPhoto(sortPhotoDefault(userPhotos));
+  });
+
+  randomFilter.addEventListener('click', () => {
+    activeFilter.classList.remove('img-filters__button--active');
+    randomFilter.classList.add('img-filters__button--active');
+    activeFilter = randomFilter;
+    renderUsersPhoto(sortPhotoRandom(userPhotos));
+  });
+
+  discussedFilter.addEventListener('click', () => {
+    activeFilter.classList.remove('img-filters__button--active');
+    discussedFilter.classList.add('img-filters__button--active');
+    activeFilter = discussedFilter;
+    renderUsersPhoto(sortPhotoDiscussed(userPhotos));
+  });
 };
-
-
-export {filterPhotos};
+export {sortPhotos, clearPhotos};

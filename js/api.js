@@ -19,7 +19,7 @@ const getData = () =>fetch('https://31.javascript.htmlacademy.pro/kekstagram/dat
   });
 
 const sendData = (body) => fetch(
-  'https://31.javascript.htmlacademy.pro/kekstaram',
+  'https://31.javascript.htmlacademy.pro/kekstagram',
   {
     method: 'POST',
     body,
