@@ -1,5 +1,5 @@
-import { getRandomInteger } from "./util.js";
-import { renderUsersPhoto } from "./photo-thumbnail.js";
+import { getRandomInteger } from './util.js';
+import { renderUsersPhoto } from './photo-thumbnail.js';
 
 const NUMBER_RANDOM_PHOTO = 10;
 const imageFilters = document.querySelector('.img-filters');
@@ -9,7 +9,6 @@ const discussedFilter = imageFilters.querySelector('#filter-discussed');
 //const filterButton = document.querySelector('.img-filters__button');
 const filterButtonsArray = Array.from(document.querySelectorAll('.img-filters__button'));
 
-imageFilters.classList.remove('img-filters--inactive');
 
 const filterPhotoDefault = (userPhotos) => userPhotos;
 
@@ -37,9 +36,10 @@ for (const filterButton of filterButtonsArray) {
 }
 
 const filterPhotos = (userPhotos) => {
-  defaultFilter.addEventListener('click', filterPhotoDefault());
-  randomFilter.addEventListener('click', filterPhotoRandom());
-  discussedFilter.addEventListener('click', filterPhotoDiscussed());
+  imageFilters.classList.remove('img-filters--inactive');
+  defaultFilter.addEventListener('click', renderUsersPhoto(filterPhotoDefault(userPhotos)));
+  randomFilter.addEventListener('click', renderUsersPhoto(filterPhotoRandom(userPhotos)));
+  discussedFilter.addEventListener('click', renderUsersPhoto(filterPhotoDiscussed(userPhotos)));
 };
 
 

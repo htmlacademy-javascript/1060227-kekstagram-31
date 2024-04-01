@@ -23,6 +23,7 @@ import { filterPhotos } from './sorting.js';
 getData()
   .then((photos) => {
     renderUsersPhoto(photos);
+    filterPhotos(photos);
   });
 
 setUserFormSubmit(closeEditFormImage);
