@@ -62,12 +62,6 @@ const validateLengthComment = (comment) => comment.length <= COMMENT_LIMIT;
 const validateHashtagLimit = (hashtagList) => hashtagList.split(' ').length <= LIMIT_HASHTAG;
 const validateHashtagUniq = (hashtagList) => {
   const hashtagArray = hashtagList.toLowerCase().split(' ');
-  // const uniqueArray = [];
-  // for (let i = 0; i < hashtagArray.length; i++) {
-  //   if (!uniqueArray.includes(hashtagArray[i])) {
-  //     uniqueArray.push(hashtagArray[i]);
-  //   }
-  // }
   const uniqueArray = Array.from(new Set(hashtagArray));
   return hashtagArray.length === uniqueArray.length;
 };

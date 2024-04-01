@@ -39,6 +39,8 @@ const effects = {
   step: 0.1,
   },
 };
+
+const DEFAULT_FILTER = 'none';
 const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const imageUploadPreview = document.querySelector('.img-upload__preview img');
@@ -105,7 +107,7 @@ effectsList.addEventListener('click', (evt) => {
     return;
   }
 
-  if (currentFilterValue === 'none') {
+  if (currentFilterValue === DEFAULT_FILTER) {
     applyFilter();
   } else {
     effectLevelContainer.classList.remove('hidden');
@@ -114,7 +116,7 @@ effectsList.addEventListener('click', (evt) => {
 });
 
 const deleteEffect = () => {
-  currentFilterValue = 'none';
+  currentFilterValue = DEFAULT_FILTER;
   applyFilter();
 };
 
