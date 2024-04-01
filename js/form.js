@@ -11,7 +11,15 @@ const editFormImage = document.querySelector('.img-upload__overlay');
 const buttonClose = editFormImage.querySelector('.img-upload__cancel');
 const textHashtag = editFormImage.querySelector('.text__hashtags');
 const textComment = editFormImage.querySelector('.text__description');
+const buttonSubmit = document.querySelector('.img-upload__submit');
 
+const successFormTemplate = document.querySelector('#success')?.content?.querySelector('.success');
+const successForm = successFormTemplate.cloneNode(true);
+const successButton = successForm.querySelector('.success__button');
+
+const errorFormTemplate = document.querySelector('#error')?.content?.querySelector('.error');
+const errorForm = errorFormTemplate.cloneNode(true);
+const errorButton = errorForm.querySelector('.error__button');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -46,6 +54,14 @@ function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     closeEditFormImage();
+    hideSuccessMessage();
+  }
+}
+
+function onMessageKeydown (evt) {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+    hideErrorMessage();
   }
 }
 
@@ -89,25 +105,77 @@ pristine.addValidator(textHashtag, validateHashtagUniq, 'Хэштеги повт
 pristine.addValidator(textHashtag, validateHashtag, 'Введён невалидный хэштег');
 
 
-const setUserFormSubmit = (onSuccess) => {
+function hideSuccessMessage() {
+  //successForm.classList.add('hidden');
+  body.removeChild(successForm);
+  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('click', onOutsideClickSuccess);
+}
+
+const closeSuccessMessageByClick = () => {
+  successButton.addEventListener('click', hideSuccessMessage);
+};
+
+function onOutsideClickSuccess (evt) {
+  const isOutsideClick = evt.composedPath().includes(successForm.querySelector('.success__inner'));
+  if (!isOutsideClick) {
+    hideSuccessMessage();
+  }
+}
+
+function hideErrorMessage() {
+  body.removeChild(errorForm);
+  body.removeEventListener('keydown', onMessageKeydown);
+  document.removeEventListener('click', onOutsideClickError);
+}
+
+
+const closeErrorMessageByClick = () => {
+  errorButton.addEventListener('click', hideErrorMessage);
+};
+
+function onOutsideClickError (evt) {
+  const isOutsideClick = evt.composedPath().includes(errorForm.querySelector('.error__inner'));
+  if (!isOutsideClick) {
+    hideErrorMessage();
+  }
+}
+
+const openMessage = (messageForm) => {
+  body.appendChild(messageForm);
+  if (messageForm === successForm) {
+    closeEditFormImage();
+    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('click', onOutsideClickSuccess);
+  } else {
+    body.addEventListener('keydown', onMessageKeydown);
+    document.addEventListener('click', onOutsideClickError);
+  }
+};
+
+
+const setUserFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if (isValid) {
+      buttonSubmit.disabled = true;
+      //buttonSubmit.textContent = 'Cохраняю';
       sendData(new FormData(evt.target))
         .then(() => {
-          const successTemplate = document.querySelector('#success')?.content;
-          body.appendChild(successTemplate);
-          // const successMessage = successTemplate.querySelector('.success');
-          // successMessage.classList.add('hidden');
+          //openSuccessMessage();
+          openMessage(successForm);
+          closeSuccessMessageByClick();
         })
         .catch(() => {
-          const errorTemplate = document.querySelector('#error')?.content;
-          body.appendChild(errorTemplate);
-          //const errorMessage = errorTemplate.querySelector('.error');
-          //errorMessage.classList.add('hidden');
-          //errorMessage.classList.remove('hidden');
+          //openErrorMessage();
+          openMessage(errorForm);
+          closeErrorMessageByClick();
+        })
+        .finally(() => {
+          buttonSubmit.disabled = false;
+          //buttonSubmit.textContent = 'Опубликовать';
         });
     }
     removeScaleListeners();

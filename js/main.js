@@ -4,10 +4,12 @@ import './full-size-foto.js';
 import './form.js';
 import './image-effects.js';
 import './scale.js';
+import './sorting.js';
 import { getData } from './api.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
 import { setUserFormSubmit } from './form.js';
 import { closeEditFormImage } from './form.js';
+import { filterPhotos } from './sorting.js';
 
 //getPhotosDescription();
 

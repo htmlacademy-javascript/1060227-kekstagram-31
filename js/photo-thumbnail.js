@@ -44,7 +44,7 @@ const renderUsersPhoto = (userPhotos) => {
 
   picturesContainer.appendChild(picturesFragment);
   showBigPhoto(userPhotos);
-  //return userPhotos;
+  return userPhotos;
 };
 //picturesContainer.appendChild(picturesFragment);
 //export {picturesContainer, photosDescription};
