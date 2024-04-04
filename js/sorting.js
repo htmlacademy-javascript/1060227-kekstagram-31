@@ -1,16 +1,20 @@
-import { getRandomInteger } from './util.js';
+import { getRandomInteger, debounce} from './util.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
 
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const NUMBER_RANDOM_PHOTO = 10;
 const imageFilters = document.querySelector('.img-filters');
 const defaultFilter = imageFilters.querySelector('#filter-default');
 const randomFilter = imageFilters.querySelector('#filter-random');
 const discussedFilter = imageFilters.querySelector('#filter-discussed');
 const pictures = document.querySelector('.pictures');
+const uploadImage = document.querySelector('.img-upload__input');
+const image = document.querySelector('.img-upload__preview img');
+const previews = document.querySelectorAll('.effects__preview');
 
 const clearPhotos = () => {
   const photos = pictures.querySelectorAll('.picture');
-
   photos.forEach((photo) => {
     photo.remove();
   });
@@ -31,8 +35,8 @@ const sortPhotoRandom = (userPhotos) => {
 
 const sortPhotoDiscussed = (userPhotos) => userPhotos.slice().sort((commentA, commentB) => commentB.comments.length - commentA.comments.length);
 
-let activeFilter = defaultFilter;
 
+let activeFilter = defaultFilter;
 const sortPhotos = (userPhotos) => {
   imageFilters.classList.remove('img-filters--inactive');
 
@@ -57,4 +61,18 @@ const sortPhotos = (userPhotos) => {
     renderUsersPhoto(sortPhotoDiscussed(userPhotos));
   });
 };
+
+uploadImage.addEventListener('change', () => {
+  const file = uploadImage.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    image.src = URL.createObjectURL(file);
+    previews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${image.src})`;
+    });
+  }
+});
 export {sortPhotos, clearPhotos};

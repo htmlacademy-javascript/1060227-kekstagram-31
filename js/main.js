@@ -6,9 +6,10 @@ import './scale.js';
 import './sorting.js';
 import { getData } from './api.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
-import { setUserFormSubmit } from './form.js';
-import { closeEditFormImage } from './form.js';
+import { setUserFormSubmit, closeEditFormImage, showGetDataError } from './form.js';
+//import { closeEditFormImage } from './form.js';
 import { sortPhotos } from './sorting.js';
+//import { debounce } from './util.js';
 
 //getPhotosDescription();
 
@@ -23,6 +24,9 @@ getData()
   .then((photos) => {
     renderUsersPhoto(photos);
     sortPhotos(photos);
+  })
+  .catch(() => {
+    showGetDataError();
   });
 
 setUserFormSubmit(closeEditFormImage);

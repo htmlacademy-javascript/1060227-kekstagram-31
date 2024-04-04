@@ -1,3 +1,5 @@
+const DEFAULT_FILTER = 'none';
+
 const effects = {
   chrome: {range: {
     min: 0,
