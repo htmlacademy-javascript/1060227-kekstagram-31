@@ -61,40 +61,6 @@ const sortPhotos = (userPhotos) => {
   }));
 };
 
-// const removeActiveClass = () => {
-//   const activeButton = document.querySelector('.img-filters__button--active');
-//   activeButton.classList.remove('img-filters__button--active');
-// };
-
-
-// const sortPhotos = (userPhotos) => {
-//   imageFilters.classList.remove('img-filters--inactive');
-
-//   defaultFilter.addEventListener('click', debounce((evt) => {
-//     removeActiveClass();
-//     if (evt.target === defaultFilter) {
-//       defaultFilter.classList.add('img-filters__button--active');
-//     }
-//     renderUsersPhoto(sortPhotoDefault(userPhotos));
-//   }));
-
-//   randomFilter.addEventListener('click', debounce((evt) => {
-//     removeActiveClass();
-//     if (evt.target === randomFilter) {
-//       randomFilter.classList.add('img-filters__button--active');
-//     }
-//     renderUsersPhoto(sortPhotoRandom(userPhotos));
-//   }));
-
-//   discussedFilter.addEventListener('click', debounce((evt) => {
-//     removeActiveClass();
-//     if (evt.target === discussedFilter) {
-//       discussedFilter.classList.add('img-filters__button--active');
-//     }
-//     renderUsersPhoto(sortPhotoDiscussed(userPhotos));
-//   }));
-// };
-
 uploadImage.addEventListener('change', () => {
   const file = uploadImage.files[0];
   const fileName = file.name.toLowerCase();
