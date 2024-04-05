@@ -1,5 +1,7 @@
 import {picturesContainer} from './photo-thumbnail.js';
 
+const COMMENTS_NUMBER_LIMIT = 5;
+let COMMENTS_NUMBER_CURRENT = 0;
 const bigPictureContainer = document.querySelector('.big-picture');
 const body = document.querySelector('body');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
@@ -11,9 +13,7 @@ const socialCommentsList = bigPictureContainer.querySelector('.social__comments'
 const commentShownCount = bigPictureContainer.querySelector('.social__comment-shown-count');
 const commentTotalCount = bigPictureContainer.querySelector('.social__comment-total-count');
 const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
-const COMMENTS_NUMBER_LIMIT = 5;
 let commentsArray = [];
-let COMMENTS_NUMBER_CURRENT = 0;
 
 
 const openBigPicture = () => {

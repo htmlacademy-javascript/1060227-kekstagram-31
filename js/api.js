@@ -4,8 +4,6 @@ const Route = {
   SEND_DATA: '/',
 };
 
-// const TIMEOUT = 5000;
-// const errorTemplate = document.querySelector('#data-error')?.content;
 
 const getData = () =>fetch(`${BASE_URL}${Route.GET_DATA}`)
   .then((response) => {
@@ -16,13 +14,6 @@ const getData = () =>fetch(`${BASE_URL}${Route.GET_DATA}`)
     throw new Error(`${response.status} ${response.statusText}`);
   });
 
-// .catch(() => {
-//   document.body.appendChild(errorTemplate);
-//   setTimeout(() => {
-//     const errorMessage = document.querySelector('.data-error');
-//     document.body.removeChild(errorMessage);
-//   }, TIMEOUT);
-// });
 
 const sendData = (body) => fetch(
   `${BASE_URL}${Route.SEND_DATA}`,
@@ -35,8 +26,5 @@ const sendData = (body) => fetch(
       throw new Error();
     }
   });
-  // .catch(() => {
-  //   throw new Error('Не удалось отправить форму. Попробуйте еще раз');
-  // });
 
 export {getData, sendData};

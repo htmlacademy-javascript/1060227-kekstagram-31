@@ -1,6 +1,7 @@
 import { addScaleListeners, removeScaleListeners } from './scale.js';
 import { deleteEffect } from './image-effects.js';
 import { sendData } from './api.js';
+import {isEscapeKey} from './util.js';
 
 const COMMENT_LIMIT = 140;
 const LIMIT_HASHTAG = 5;
@@ -55,35 +56,34 @@ buttonClose.addEventListener('click', () => {
 });
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeEditFormImage();
-    //hideSuccessMessage();
   }
 }
 
-function onMessageKeydown (evt) {
-  if (evt.key === 'Escape') {
+function onErrorMessageKeydown (evt) {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
     hideErrorMessage();
   }
 }
 
 function onSuccessMessageKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
     hideSuccessMessage();
   }
 }
 
 textHashtag.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 });
 
 textComment.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 });
@@ -118,11 +118,6 @@ const validateHashtag = (hashtagList) => {
   return true;
 };
 
-// function onFieldBlur () {
-//   this.value = this.value.replace(SPACES, ' ').trim();
-// }
-
-// textHashtag.addEventListener('blur', onFieldBlur);
 
 pristine.addValidator(textComment, validateLengthComment, 'Длина комментария больше 140 символов');
 pristine.addValidator(textHashtag, validateHashtagLimit, 'Превышено количество хэштегов');
@@ -148,7 +143,7 @@ function onOutsideClickSuccess (evt) {
 
 function hideErrorMessage() {
   body.removeChild(errorForm);
-  body.removeEventListener('keydown', onMessageKeydown);
+  body.removeEventListener('keydown', onErrorMessageKeydown);
   document.removeEventListener('click', onOutsideClickError);
 }
 
@@ -171,7 +166,7 @@ const openMessage = (messageForm) => {
     document.addEventListener('keydown', onSuccessMessageKeydown);
     document.addEventListener('click', onOutsideClickSuccess);
   } else {
-    body.addEventListener('keydown', onMessageKeydown);
+    body.addEventListener('keydown', onErrorMessageKeydown);
     document.addEventListener('click', onOutsideClickError);
   }
 };

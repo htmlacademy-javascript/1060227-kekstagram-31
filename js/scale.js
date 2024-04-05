@@ -8,7 +8,7 @@ const scaleValue = document.querySelector('.scale__control--value');
 const imageUploadPreview = document.querySelector('.img-upload__preview img');
 let scaleValueNumber = parseInt(scaleValue.value, 10);
 
-const changeScale = () => {
+const changeSizePhoto = () => {
   imageUploadPreview.style.transform = `scale(${scaleValueNumber / 100})`;
 };
 
@@ -16,7 +16,7 @@ const reduceScale = () => {
   if (scaleValueNumber > MIN_VALUE) {
     scaleValueNumber -= STEP;
     scaleValue.value = `${scaleValueNumber}%`;
-    changeScale();
+    changeSizePhoto();
   }
 };
 
@@ -24,7 +24,7 @@ const increaseScale = () => {
   if (scaleValueNumber < MAX_VALUE) {
     scaleValueNumber += STEP;
     scaleValue.value = `${scaleValueNumber}%`;
-    changeScale();
+    changeSizePhoto();
   }
 };
 
