@@ -2,15 +2,14 @@ import { getRandomInteger, debounce} from './util.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
 
 const NUMBER_RANDOM_PHOTO = 10;
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+//const RERENDER_DELAY = 500;
 const imageFilters = document.querySelector('.img-filters');
-const defaultFilter = imageFilters.querySelector('#filter-default');
-const randomFilter = imageFilters.querySelector('#filter-random');
-const discussedFilter = imageFilters.querySelector('#filter-discussed');
+// const defaultFilter = imageFilters.querySelector('#filter-default');
+// const randomFilter = imageFilters.querySelector('#filter-random');
+// const discussedFilter = imageFilters.querySelector('#filter-discussed');
+const filterForm = document.querySelector('.img-filters__form');
 const pictures = document.querySelector('.pictures');
-const uploadImage = document.querySelector('.img-upload__input');
-const image = document.querySelector('.img-upload__preview img');
-const previews = document.querySelectorAll('.effects__preview');
+
 
 const clearPhotos = () => {
   const photos = pictures.querySelectorAll('.picture');
@@ -19,105 +18,52 @@ const clearPhotos = () => {
   });
 };
 
-const sortPhotoDefault = (userPhotos) => userPhotos;
-
-const sortPhotoRandom = (userPhotos) => {
-  const newUserPhotosArray = [];
-  while (newUserPhotosArray.length < NUMBER_RANDOM_PHOTO) {
-    const randomIndex = getRandomInteger(0, userPhotos.length - 1);
-    if (!newUserPhotosArray.includes(userPhotos[randomIndex])) {
-      newUserPhotosArray.push(userPhotos[randomIndex]);
-    }
-  }
-  return newUserPhotosArray;
-};
-
-const sortPhotoDiscussed = (userPhotos) => userPhotos.slice().sort((commentA, commentB) => commentB.comments.length - commentA.comments.length);
-
-
-// let activeFilter = defaultFilter;
-// const sortPhotos = (userPhotos) => {
-//   imageFilters.classList.remove('img-filters--inactive');
-
-//   const onClickDefaultFilter = debounce(() => {
-//     activeFilter.classList.remove('img-filters__button--active');
-//     defaultFilter.classList.add('img-filters__button--active');
-//     activeFilter = defaultFilter;
-//     renderUsersPhoto(sortPhotoDefault(userPhotos));
-//   });
-
-//   defaultFilter.addEventListener('click', onClickDefaultFilter);
-
-//   const onClickRandomFilter = debounce(() => {
-//     activeFilter.classList.remove('img-filters__button--active');
-//     randomFilter.classList.add('img-filters__button--active');
-//     activeFilter = randomFilter;
-//     renderUsersPhoto(sortPhotoRandom(userPhotos));
-//   });
-
-//   randomFilter.addEventListener('click', onClickRandomFilter);
-
-//   const onClickDiscussedFilter = debounce(() => {
-//     activeFilter.classList.remove('img-filters__button--active');
-//     discussedFilter.classList.add('img-filters__button--active');
-//     activeFilter = discussedFilter;
-//     renderUsersPhoto(sortPhotoDiscussed(userPhotos));
-//   });
-
-//   discussedFilter.addEventListener('click', onClickDiscussedFilter);
-// };
-
-const removeActiveClass = () => {
-  const activeButton = document.querySelector('.img-filters__button--active');
-  activeButton.classList.remove('img-filters__button--active');
-};
-
 const sortPhotos = (userPhotos) => {
   imageFilters.classList.remove('img-filters--inactive');
 
-  const onClickDefaultFilter = debounce((evt) => {
-    removeActiveClass();
-    if (evt.target === defaultFilter) {
-      defaultFilter.classList.add('img-filters__button--active');
+  const sortPhotoDefault = () => userPhotos;
+
+  const sortPhotoRandom = () => {
+    const newUserPhotosArray = [];
+    while (newUserPhotosArray.length < NUMBER_RANDOM_PHOTO) {
+      const randomIndex = getRandomInteger(0, userPhotos.length - 1);
+      if (!newUserPhotosArray.includes(userPhotos[randomIndex])) {
+        newUserPhotosArray.push(userPhotos[randomIndex]);
+      }
     }
-    renderUsersPhoto(sortPhotoDefault(userPhotos));
-  });
-  defaultFilter.addEventListener('click', onClickDefaultFilter);
+    return newUserPhotosArray;
+  };
 
-  const onClickRandomFilter = debounce((evt) => {
-    removeActiveClass();
-    if (evt.target === randomFilter) {
-      randomFilter.classList.add('img-filters__button--active');
+  const sortPhotoDiscussed = () => userPhotos.slice().sort((commentA, commentB) => commentB.comments.length - commentA.comments.length);
+
+  const changeFilterClass = (filterName) => {
+    document.querySelectorAll('.img-filters__button').forEach((element) => element.classList.remove('img-filters__button--active'));
+    document.querySelector(`#${filterName}`).classList.add('img-filters__button--active');
+  };
+
+  const onClickFilter = (evt) => {
+    if (!evt.target.classList.contains('img-filters__button')) {
+      return;
     }
-    renderUsersPhoto(sortPhotoRandom(userPhotos));
-  });
+    const idFilter = evt.target.id;
 
-  randomFilter.addEventListener('click', onClickRandomFilter);
-
-  const onClickDiscussedFilter = debounce((evt) => {
-    removeActiveClass();
-    if (evt.target === discussedFilter) {
-      discussedFilter.classList.add('img-filters__button--active');
+    switch(idFilter) {
+      case 'filter-default':
+        changeFilterClass(idFilter);
+        renderUsersPhoto(sortPhotoDefault(userPhotos));
+        break;
+      case 'filter-random':
+        changeFilterClass(idFilter);
+        renderUsersPhoto(sortPhotoRandom(userPhotos));
+        break;
+      case 'filter-discussed':
+        changeFilterClass(idFilter);
+        renderUsersPhoto(sortPhotoDiscussed(userPhotos));
+        break;
     }
-    renderUsersPhoto(sortPhotoDiscussed(userPhotos));
-  });
-
-  discussedFilter.addEventListener('click', onClickDiscussedFilter);
+  };
+  filterForm.addEventListener('click', debounce(onClickFilter));
 };
 
-
-uploadImage.addEventListener('change', () => {
-  const file = uploadImage.files[0];
-  const fileName = file.name.toLowerCase();
-
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
-
-  if (matches) {
-    image.src = URL.createObjectURL(file);
-    previews.forEach((preview) => {
-      preview.style.backgroundImage = `url(${image.src})`;
-    });
-  }
-});
 
 export {sortPhotos, clearPhotos};

@@ -4,6 +4,7 @@ import './form.js';
 import './image-effects.js';
 import './scale.js';
 import './sorting.js';
+import './load-photo.js';
 import { getData } from './api.js';
 import { renderUsersPhoto } from './photo-thumbnail.js';
 import { setUserFormSubmit, closeEditFormImage, showGetDataError } from './form.js';
