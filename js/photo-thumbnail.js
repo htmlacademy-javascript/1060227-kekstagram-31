@@ -1,14 +1,14 @@
 import { clearPhotos } from './sorting.js';
 import { showBigPhoto } from './full-size-foto.js';
 
-const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture')?.content?.querySelector('.picture');
+const picturesContainerElement = document.querySelector('.pictures');
+const pictureTemplateElement = document.querySelector('#picture')?.content?.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
 const renderUsersPhoto = (userPhotos) => {
   clearPhotos();
   userPhotos.forEach(({id, url, description, likes, comments}) => {
-    const pictureTemplateClone = pictureTemplate.cloneNode(true);
+    const pictureTemplateClone = pictureTemplateElement.cloneNode(true);
     pictureTemplateClone.dataset.pictureId = id;
     pictureTemplateClone.querySelector('.picture__img').src = url;
     pictureTemplateClone.querySelector('.picture__img').alt = description;
@@ -17,8 +17,8 @@ const renderUsersPhoto = (userPhotos) => {
     picturesFragment.appendChild(pictureTemplateClone);
   });
 
-  picturesContainer.appendChild(picturesFragment);
+  picturesContainerElement.appendChild(picturesFragment);
   showBigPhoto(userPhotos);
 };
 
-export {picturesContainer, renderUsersPhoto};
+export {picturesContainerElement, renderUsersPhoto};

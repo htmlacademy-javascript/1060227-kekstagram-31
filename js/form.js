@@ -6,25 +6,25 @@ import {isEscapeKey} from './util.js';
 const COMMENT_LIMIT = 140;
 const LIMIT_HASHTAG = 5;
 const TIMEOUT = 5000;
-const body = document.querySelector('body');
-const form = document.querySelector('.img-upload__form');
-const uploadButton = document.querySelector('.img-upload__input');
-const editFormImage = document.querySelector('.img-upload__overlay');
-const buttonClose = editFormImage.querySelector('.img-upload__cancel');
-const textHashtag = editFormImage.querySelector('.text__hashtags');
-const textComment = editFormImage.querySelector('.text__description');
-const buttonSubmit = document.querySelector('.img-upload__submit');
-const errorTemplate = document.querySelector('#data-error')?.content;
+const bodyElement = document.querySelector('body');
+const formElement = document.querySelector('.img-upload__form');
+const uploadButtonElement = document.querySelector('.img-upload__input');
+const editFormImageElement = document.querySelector('.img-upload__overlay');
+const buttonCloseElement = editFormImageElement.querySelector('.img-upload__cancel');
+const textHashtagElement = editFormImageElement.querySelector('.text__hashtags');
+const textCommentElement = editFormImageElement.querySelector('.text__description');
+const buttonSubmitElement = document.querySelector('.img-upload__submit');
+const errorTemplateElement = document.querySelector('#data-error')?.content;
 
-const successFormTemplate = document.querySelector('#success')?.content?.querySelector('.success');
-const successForm = successFormTemplate.cloneNode(true);
-const successButton = successForm.querySelector('.success__button');
+const successFormTemplateElement = document.querySelector('#success')?.content?.querySelector('.success');
+const successFormElement = successFormTemplateElement.cloneNode(true);
+const successButtonElement = successFormElement.querySelector('.success__button');
 
-const errorFormTemplate = document.querySelector('#error')?.content?.querySelector('.error');
-const errorForm = errorFormTemplate.cloneNode(true);
-const errorButton = errorForm.querySelector('.error__button');
+const errorFormTemplateElement = document.querySelector('#error')?.content?.querySelector('.error');
+const errorFormElement = errorFormTemplateElement.cloneNode(true);
+const errorButtonElement = errorFormElement.querySelector('.error__button');
 
-const pristine = new Pristine(form, {
+const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
@@ -33,25 +33,25 @@ const pristine = new Pristine(form, {
 });
 
 
-uploadButton.addEventListener('change', (evt) => {
+uploadButtonElement.addEventListener('change', (evt) => {
   evt.preventDefault();
   addScaleListeners();
-  editFormImage.classList.remove('hidden');
-  body.classList.add('modal-open');
+  editFormImageElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   deleteEffect();
 });
 
 const closeEditFormImage = () => {
-  editFormImage.classList.add('hidden');
-  uploadButton.value = '';
-  body.classList.remove('modal-open');
+  editFormImageElement.classList.add('hidden');
+  uploadButtonElement.value = '';
+  bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  form.reset();
+  formElement.reset();
   pristine.reset();
 };
 
-buttonClose.addEventListener('click', () => {
+buttonCloseElement.addEventListener('click', () => {
   closeEditFormImage();
 });
 
@@ -76,13 +76,13 @@ function onSuccessMessageKeydown (evt) {
   }
 }
 
-textHashtag.addEventListener('keydown', (evt) => {
+textHashtagElement.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 });
 
-textComment.addEventListener('keydown', (evt) => {
+textCommentElement.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
@@ -119,60 +119,60 @@ const validateHashtag = (hashtagList) => {
 };
 
 
-pristine.addValidator(textComment, validateLengthComment, 'Длина комментария больше 140 символов');
-pristine.addValidator(textHashtag, validateHashtagLimit, 'Превышено количество хэштегов');
-pristine.addValidator(textHashtag, validateHashtagUniq, 'Хэштеги повторяются');
-pristine.addValidator(textHashtag, validateHashtag, 'Введён невалидный хэштег');
+pristine.addValidator(textCommentElement, validateLengthComment, 'Длина комментария больше 140 символов');
+pristine.addValidator(textHashtagElement, validateHashtagLimit, 'Превышено количество хэштегов');
+pristine.addValidator(textHashtagElement, validateHashtagUniq, 'Хэштеги повторяются');
+pristine.addValidator(textHashtagElement, validateHashtag, 'Введён невалидный хэштег');
 
 function hideSuccessMessage() {
-  body.removeChild(successForm);
+  bodyElement.removeChild(successFormElement);
   document.removeEventListener('keydown', onSuccessMessageKeydown);
   document.removeEventListener('click', onOutsideClickSuccess);
 }
 
 const closeSuccessMessageByClick = () => {
-  successButton.addEventListener('click', hideSuccessMessage);
+  successButtonElement.addEventListener('click', hideSuccessMessage);
 };
 
 function onOutsideClickSuccess (evt) {
-  const isOutsideClick = evt.composedPath().includes(successForm.querySelector('.success__inner'));
+  const isOutsideClick = evt.composedPath().includes(successFormElement.querySelector('.success__inner'));
   if (!isOutsideClick) {
     hideSuccessMessage();
   }
 }
 
 function hideErrorMessage() {
-  body.removeChild(errorForm);
-  body.removeEventListener('keydown', onErrorMessageKeydown);
+  bodyElement.removeChild(errorFormElement);
+  bodyElement.removeEventListener('keydown', onErrorMessageKeydown);
   document.removeEventListener('click', onOutsideClickError);
 }
 
 
 const closeErrorMessageByClick = () => {
-  errorButton.addEventListener('click', hideErrorMessage);
+  errorButtonElement.addEventListener('click', hideErrorMessage);
 };
 
 function onOutsideClickError (evt) {
-  const isOutsideClick = evt.composedPath().includes(errorForm.querySelector('.error__inner'));
+  const isOutsideClick = evt.composedPath().includes(errorFormElement.querySelector('.error__inner'));
   if (!isOutsideClick) {
     hideErrorMessage();
   }
 }
 
 const openMessage = (messageForm) => {
-  body.appendChild(messageForm);
-  if (messageForm === successForm) {
+  bodyElement.appendChild(messageForm);
+  if (messageForm === successFormElement) {
     closeEditFormImage();
     document.addEventListener('keydown', onSuccessMessageKeydown);
     document.addEventListener('click', onOutsideClickSuccess);
   } else {
-    body.addEventListener('keydown', onErrorMessageKeydown);
+    bodyElement.addEventListener('keydown', onErrorMessageKeydown);
     document.addEventListener('click', onOutsideClickError);
   }
 };
 
 const showGetDataError = () => {
-  document.body.appendChild(errorTemplate);
+  document.body.appendChild(errorTemplateElement);
   setTimeout(() => {
     const errorMessage = document.querySelector('.data-error');
     document.body.removeChild(errorMessage);
@@ -180,23 +180,23 @@ const showGetDataError = () => {
 };
 
 const setUserFormSubmit = () => {
-  form.addEventListener('submit', (evt) => {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if (isValid) {
-      buttonSubmit.disabled = true;
+      buttonSubmitElement.disabled = true;
       sendData(new FormData(evt.target))
         .then(() => {
-          openMessage(successForm);
+          openMessage(successFormElement);
           closeSuccessMessageByClick();
         })
         .catch(() => {
-          openMessage(errorForm);
+          openMessage(errorFormElement);
           closeErrorMessageByClick();
         })
         .finally(() => {
-          buttonSubmit.disabled = false;
+          buttonSubmitElement.disabled = false;
         });
     }
     removeScaleListeners();

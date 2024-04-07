@@ -2,41 +2,41 @@ const STEP = 25;
 const MIN_VALUE = 25;
 const MAX_VALUE = 100;
 const DEFAULT_VALUE = 100;
-const scaleSmallerButton = document.querySelector('.scale__control--smaller');
-const scaleBiggerButton = document.querySelector('.scale__control--bigger');
-const scaleValue = document.querySelector('.scale__control--value');
-const imageUploadPreview = document.querySelector('.img-upload__preview img');
-let scaleValueNumber = parseInt(scaleValue.value, 10);
+const scaleSmallerButtonElement = document.querySelector('.scale__control--smaller');
+const scaleBiggerButtonElement = document.querySelector('.scale__control--bigger');
+const scaleValueElement = document.querySelector('.scale__control--value');
+const imageUploadPreviewElement = document.querySelector('.img-upload__preview img');
+let scaleValueNumber = parseInt(scaleValueElement.value, 10);
 
 const changeSizePhoto = () => {
-  imageUploadPreview.style.transform = `scale(${scaleValueNumber / 100})`;
+  imageUploadPreviewElement.style.transform = `scale(${scaleValueNumber / 100})`;
 };
 
-const reduceScale = () => {
+const onSmallerButtonClick = () => {
   if (scaleValueNumber > MIN_VALUE) {
     scaleValueNumber -= STEP;
-    scaleValue.value = `${scaleValueNumber}%`;
+    scaleValueElement.value = `${scaleValueNumber}%`;
     changeSizePhoto();
   }
 };
 
-const increaseScale = () => {
+const onBiggerButtonClick = () => {
   if (scaleValueNumber < MAX_VALUE) {
     scaleValueNumber += STEP;
-    scaleValue.value = `${scaleValueNumber}%`;
+    scaleValueElement.value = `${scaleValueNumber}%`;
     changeSizePhoto();
   }
 };
 
 const addScaleListeners = () => {
-  imageUploadPreview.style.transform = `scale(${DEFAULT_VALUE / 100})`;
-  scaleSmallerButton.addEventListener('click', reduceScale);
-  scaleBiggerButton.addEventListener('click', increaseScale);
+  imageUploadPreviewElement.style.transform = `scale(${DEFAULT_VALUE / 100})`;
+  scaleSmallerButtonElement.addEventListener('click', onSmallerButtonClick);
+  scaleBiggerButtonElement.addEventListener('click', onBiggerButtonClick);
 };
 
 const removeScaleListeners = () => {
-  scaleSmallerButton.removeEventListener('click', reduceScale);
-  scaleBiggerButton.removeEventListener('click', increaseScale);
+  scaleSmallerButtonElement.removeEventListener('click', onSmallerButtonClick);
+  scaleBiggerButtonElement.removeEventListener('click', onBiggerButtonClick);
 };
 
 export {addScaleListeners, removeScaleListeners};
