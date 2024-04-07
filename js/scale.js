@@ -8,23 +8,22 @@ const scaleValueElement = document.querySelector('.scale__control--value');
 const imageUploadPreviewElement = document.querySelector('.img-upload__preview img');
 let scaleValueNumber = parseInt(scaleValueElement.value, 10);
 
-const changeSizePhoto = () => {
+const editScale = () => {
+  scaleValueElement.value = `${scaleValueNumber}%`;
   imageUploadPreviewElement.style.transform = `scale(${scaleValueNumber / 100})`;
 };
 
 const onSmallerButtonClick = () => {
   if (scaleValueNumber > MIN_VALUE) {
     scaleValueNumber -= STEP;
-    scaleValueElement.value = `${scaleValueNumber}%`;
-    changeSizePhoto();
+    editScale();
   }
 };
 
 const onBiggerButtonClick = () => {
   if (scaleValueNumber < MAX_VALUE) {
     scaleValueNumber += STEP;
-    scaleValueElement.value = `${scaleValueNumber}%`;
-    changeSizePhoto();
+    editScale();
   }
 };
 
