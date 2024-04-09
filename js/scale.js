@@ -13,14 +13,14 @@ const editScale = () => {
   imageUploadPreviewElement.style.transform = `scale(${scaleValueNumber / 100})`;
 };
 
-const onSmallerButtonClick = () => {
+const onReduceButtonClick = () => {
   if (scaleValueNumber > MIN_VALUE) {
     scaleValueNumber -= STEP;
     editScale();
   }
 };
 
-const onBiggerButtonClick = () => {
+const onIncreaseButtonClick = () => {
   if (scaleValueNumber < MAX_VALUE) {
     scaleValueNumber += STEP;
     editScale();
@@ -29,13 +29,13 @@ const onBiggerButtonClick = () => {
 
 const addScaleListeners = () => {
   imageUploadPreviewElement.style.transform = `scale(${DEFAULT_VALUE / 100})`;
-  scaleSmallerButtonElement.addEventListener('click', onSmallerButtonClick);
-  scaleBiggerButtonElement.addEventListener('click', onBiggerButtonClick);
+  scaleSmallerButtonElement.addEventListener('click', onReduceButtonClick);
+  scaleBiggerButtonElement.addEventListener('click', onIncreaseButtonClick);
 };
 
 const removeScaleListeners = () => {
-  scaleSmallerButtonElement.removeEventListener('click', onSmallerButtonClick);
-  scaleBiggerButtonElement.removeEventListener('click', onBiggerButtonClick);
+  scaleSmallerButtonElement.removeEventListener('click', onReduceButtonClick);
+  scaleBiggerButtonElement.removeEventListener('click', onIncreaseButtonClick);
 };
 
 export {addScaleListeners, removeScaleListeners};
