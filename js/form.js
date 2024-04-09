@@ -65,14 +65,14 @@ function onDocumentKeydown(evt) {
 function onErrorMessageKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
-    hideErrorMessage();
+    onErrorMessageClose();
   }
 }
 
 function onSuccessMessageKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
-    hideSuccessMessage();
+    onSuccessMessageClose();
   }
 }
 
@@ -89,29 +89,29 @@ textCommentElement.addEventListener('keydown', (evt) => {
 });
 
 const validateLengthComment = (comment) => comment.length <= COMMENT_LIMIT;
-const validateHashtagLimit = (hashtagList) => {
-  let hashtagArray = hashtagList.trim().split(' ');
-  hashtagArray = hashtagArray.filter((hashtag) => hashtag !== '');
+const validateHashtagLimit = (hashtagsList) => {
+  let hashtagsArray = hashtagsList.trim().split(' ');
+  hashtagsArray = hashtagsArray.filter((hashtag) => hashtag !== '');
 
-  return hashtagArray.length <= LIMIT_HASHTAG;
+  return hashtagsArray.length <= LIMIT_HASHTAG;
 };
 
-const validateHashtagUniq = (hashtagList) => {
-  let hashtagArray = hashtagList.toLowerCase().trim().split(' ');
-  hashtagArray = hashtagArray.filter((hashtag) => hashtag !== '');
-  const uniqueArray = Array.from(new Set(hashtagArray));
-  return hashtagArray.length === uniqueArray.length;
+const validateHashtagUniq = (hashtagsList) => {
+  let hashtagsArray = hashtagsList.toLowerCase().trim().split(' ');
+  hashtagsArray = hashtagsArray.filter((hashtag) => hashtag !== '');
+  const hashtagsUniqueArray = Array.from(new Set(hashtagsArray));
+  return hashtagsArray.length === hashtagsUniqueArray.length;
 };
 
-const validateHashtag = (hashtagList) => {
-  if (hashtagList === '') {
+const validateHashtag = (hashtagsList) => {
+  if (hashtagsList === '') {
     return true;
   }
-  let hashtagArray = hashtagList.trim().split(' ');
+  let hashtagsArray = hashtagsList.trim().split(' ');
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
-  hashtagArray = hashtagArray.filter((hashtag) => hashtag !== '');
-  for (let i = 0; i < hashtagArray.length; i++) {
-    if (!hashtagRegex.test(hashtagArray[i])) {
+  hashtagsArray = hashtagsArray.filter((hashtag) => hashtag !== '');
+  for (let i = 0; i < hashtagsArray.length; i++) {
+    if (!hashtagRegex.test(hashtagsArray[i])) {
       return false;
     }
   }
@@ -124,24 +124,24 @@ pristine.addValidator(textHashtagElement, validateHashtagLimit, 'Превыше�
 pristine.addValidator(textHashtagElement, validateHashtagUniq, 'Хэштеги повторяются');
 pristine.addValidator(textHashtagElement, validateHashtag, 'Введён невалидный хэштег');
 
-function hideSuccessMessage() {
+function onSuccessMessageClose() {
   bodyElement.removeChild(successFormElement);
   document.removeEventListener('keydown', onSuccessMessageKeydown);
   document.removeEventListener('click', onOutsideClickSuccess);
 }
 
 const closeSuccessMessageByClick = () => {
-  successButtonElement.addEventListener('click', hideSuccessMessage);
+  successButtonElement.addEventListener('click', onSuccessMessageClose);
 };
 
 function onOutsideClickSuccess (evt) {
   const isOutsideClick = evt.composedPath().includes(successFormElement.querySelector('.success__inner'));
   if (!isOutsideClick) {
-    hideSuccessMessage();
+    onSuccessMessageClose();
   }
 }
 
-function hideErrorMessage() {
+function onErrorMessageClose() {
   bodyElement.removeChild(errorFormElement);
   bodyElement.removeEventListener('keydown', onErrorMessageKeydown);
   document.removeEventListener('click', onOutsideClickError);
@@ -149,13 +149,13 @@ function hideErrorMessage() {
 
 
 const closeErrorMessageByClick = () => {
-  errorButtonElement.addEventListener('click', hideErrorMessage);
+  errorButtonElement.addEventListener('click', onErrorMessageClose);
 };
 
 function onOutsideClickError (evt) {
   const isOutsideClick = evt.composedPath().includes(errorFormElement.querySelector('.error__inner'));
   if (!isOutsideClick) {
-    hideErrorMessage();
+    onErrorMessageClose();
   }
 }
 

@@ -65,7 +65,7 @@ const createCommentsList = (comment, startIndex = 0) => {
   return newCommentIndex;
 };
 
-const showCommentsAfterClick = () => {
+const onLoaderElementClick = () => {
   const commentsNumber = createCommentsList(commentsArray, COMMENTS_NUMBER_CURRENT);
   commentShownCountElement.textContent = commentsNumber;
   COMMENTS_NUMBER_CURRENT = commentsNumber;
@@ -82,7 +82,7 @@ const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commen
     commentsArray = commentsPhoto;
     COMMENTS_NUMBER_CURRENT = 5;
     commentsLoaderElement.classList.remove('hidden');
-    commentsLoaderElement.addEventListener('click', showCommentsAfterClick);
+    commentsLoaderElement.addEventListener('click', onLoaderElementClick);
   }
 };
 
