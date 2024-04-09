@@ -1,23 +1,24 @@
-import {getPhotosDescription} from './photo.js';
+import { clearPhotos } from './sorting.js';
+import { showBigPhoto } from './full-size-foto.js';
 
-const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture')?.content?.querySelector('.picture');
-
-
-const photosDescription = getPhotosDescription();
-
+const picturesContainerElement = document.querySelector('.pictures');
+const pictureTemplateElement = document.querySelector('#picture')?.content?.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-photosDescription.forEach(({id, url, description, likes, comments}) => {
-  const pictureTemplateClone = pictureTemplate.cloneNode(true);
-  pictureTemplateClone.dataset.pictureId = id;
-  pictureTemplateClone.querySelector('.picture__img').src = url;
-  pictureTemplateClone.querySelector('.picture__img').alt = description;
-  pictureTemplateClone.querySelector('.picture__likes').textContent = likes;
-  pictureTemplateClone.querySelector('.picture__comments').textContent = comments.length;
-  picturesFragment.appendChild(pictureTemplateClone);
-});
+const renderUsersPhoto = (userPhotos) => {
+  clearPhotos();
+  userPhotos.forEach(({id, url, description, likes, comments}) => {
+    const pictureTemplateClone = pictureTemplateElement.cloneNode(true);
+    pictureTemplateClone.dataset.pictureId = id;
+    pictureTemplateClone.querySelector('.picture__img').src = url;
+    pictureTemplateClone.querySelector('.picture__img').alt = description;
+    pictureTemplateClone.querySelector('.picture__likes').textContent = likes;
+    pictureTemplateClone.querySelector('.picture__comments').textContent = comments.length;
+    picturesFragment.appendChild(pictureTemplateClone);
+  });
 
-picturesContainer.appendChild(picturesFragment);
+  picturesContainerElement.appendChild(picturesFragment);
+  showBigPhoto(userPhotos);
+};
 
-export {picturesContainer, photosDescription};
+export {picturesContainerElement, renderUsersPhoto};
