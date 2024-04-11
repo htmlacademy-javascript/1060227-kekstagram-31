@@ -1,7 +1,7 @@
 import {picturesContainerElement} from './photo-thumbnail.js';
 
 const COMMENTS_NUMBER_LIMIT = 5;
-let COMMENTS_NUMBER_CURRENT = 0;
+let commentsNumberCurrent = 0;
 let commentsArray = [];
 const bigPictureContainerElement = document.querySelector('.big-picture');
 const bodyElement = document.querySelector('body');
@@ -66,9 +66,9 @@ const createCommentsList = (comment, startIndex = 0) => {
 };
 
 const onLoaderElementClick = () => {
-  const commentsNumber = createCommentsList(commentsArray, COMMENTS_NUMBER_CURRENT);
+  const commentsNumber = createCommentsList(commentsArray, commentsNumberCurrent);
   commentShownCountElement.textContent = commentsNumber;
-  COMMENTS_NUMBER_CURRENT = commentsNumber;
+  commentsNumberCurrent = commentsNumber;
 };
 
 const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commentsPhoto) => {
@@ -80,7 +80,7 @@ const createPhotoDescription = (urlPhoto, likesPhoto, descriptionOfPhoto, commen
   commentShownCountElement.textContent = createCommentsList(commentsPhoto);
   if (commentsPhoto.length > COMMENTS_NUMBER_LIMIT) {
     commentsArray = commentsPhoto;
-    COMMENTS_NUMBER_CURRENT = 5;
+    commentsNumberCurrent = COMMENTS_NUMBER_LIMIT;
     commentsLoaderElement.classList.remove('hidden');
     commentsLoaderElement.addEventListener('click', onLoaderElementClick);
   }
