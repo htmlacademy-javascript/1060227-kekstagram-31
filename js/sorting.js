@@ -5,7 +5,7 @@ const NUMBER_RANDOM_PHOTO = 10;
 const imageFiltersElement = document.querySelector('.img-filters');
 const filterFormElement = document.querySelector('.img-filters__form');
 const picturesElement = document.querySelector('.pictures');
-
+const buttonsFiltersElement = filterFormElement.querySelectorAll('.img-filters__button');
 
 const clearPhotos = () => {
   const photos = picturesElement.querySelectorAll('.picture');
@@ -35,7 +35,10 @@ const sortPhotos = (userPhotos) => {
 
   const onButtonClick = (evt) => {
     const buttonId = evt.target.id;
-    document.querySelectorAll('.img-filters__button').forEach((element) => element.classList.remove('img-filters__button--active'));
+    if (!buttonId) {
+      return;
+    }
+    buttonsFiltersElement.forEach((element) => element.classList.remove('img-filters__button--active'));
     document.querySelector(`#${buttonId}`).classList.add('img-filters__button--active');
   };
 
